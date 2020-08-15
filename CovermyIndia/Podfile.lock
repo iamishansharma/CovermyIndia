@@ -1,0 +1,38 @@
+PODS:
+  - MapmyIndiaAPIKit (1.4.5)
+  - MapmyIndiaDirections (0.23.10):
+    - MapmyIndiaAPIKit (~> 1.4.1)
+    - Polyline (~> 4.2)
+  - MapmyIndiaFeedbackKit (1.0.0)
+  - MapmyIndiaMaps (5.7.11):
+    - MapmyIndiaAPIKit (~> 1.4.5)
+    - MapmyIndiaSafetyPlugin (~> 1.0.1)
+  - MapmyIndiaSafetyPlugin (1.0.1):
+    - MapmyIndiaAPIKit (~> 1.4.1)
+  - Polyline (4.2.1)
+
+DEPENDENCIES:
+  - MapmyIndiaDirections
+  - MapmyIndiaFeedbackKit
+  - MapmyIndiaMaps
+
+SPEC REPOS:
+  trunk:
+    - MapmyIndiaAPIKit
+    - MapmyIndiaDirections
+    - MapmyIndiaFeedbackKit
+    - MapmyIndiaMaps
+    - MapmyIndiaSafetyPlugin
+    - Polyline
+
+SPEC CHECKSUMS:
+  MapmyIndiaAPIKit: 6edba197e3147a6316205e2e72456d4e9c672d23
+  MapmyIndiaDirections: 3394e3348cbb63661713acd70607b5de91649f1d
+  MapmyIndiaFeedbackKit: 43bb83e3f46121b32b84d6760148a8152de95bdd
+  MapmyIndiaMaps: dae44395da72d1ae1131ded234e99632f7ae8e99
+  MapmyIndiaSafetyPlugin: 2e2ddd7dfb2d1468fe6eaef855446b2da9af0206
+  Polyline: 0e9890790292741c8186201a536b6bb6a78d02dd
+
+PODFILE CHECKSUM: 31ce363ff6dfc2e7d4f68f85fa08ea57f1683486
+
+COCOAPODS: 1.9.3
