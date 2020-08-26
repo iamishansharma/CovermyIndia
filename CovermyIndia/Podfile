@@ -8,5 +8,6 @@ target 'CovermyIndia' do
   # Pods for MapDemo
   pod 'MapmyIndiaMaps'
   pod 'MapmyIndiaDirections'
-  pod 'MapmyIndiaFeedbackKit'
+  pod 'Firebase/Core'
+  pod 'Firebase/Firestore'
 end

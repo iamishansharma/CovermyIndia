@@ -11,16 +11,19 @@ import MapmyIndiaAPIKit
 import MapmyIndiaMaps
 import MapmyIndiaDirections
 
-class NavigateVC: UIViewController
+class NavigateVC: UIViewController, MapmyIndiaMapViewDelegate
 {
     var mapView: MapmyIndiaMapView!
     @IBOutlet weak var myView: UIView!
     var routes = [Route]()
-    var selectedRoute:Route?
-    var selectRoute:Route?
+    var selectedRoute : Route?
+    var selectRoute : Route?
     @IBOutlet weak var footer: UIView!
     @IBOutlet weak var DDlabel: UILabel!
     @IBOutlet weak var ETALabel: UILabel!
+    var nearbyStore: CLLocationCoordinate2D = CLLocationCoordinate2DMake(28.550834, 77.268918)
+    var store : Int = 0
+    var userLocation : CLLocationCoordinate2D = CLLocationCoordinate2DMake(28.550834, 77.268918)
 
     override func viewDidLoad() -> Void
     {
@@ -31,15 +34,46 @@ class NavigateVC: UIViewController
         DDlabel.layer.masksToBounds = true;
         ETALabel.layer.masksToBounds = true;
 
-        // Nearby Location
+        self.store = MapVC().bestCarrierIndex;
 
+        self.getNearby()
+
+        mapView = MapmyIndiaMapView(frame: myView.bounds)
+        mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        myView.addSubview(mapView)
+
+        mapView.delegate = self;
+    }
+
+    func getNearby()
+    {
         let nearByManager = MapmyIndiaNearByManager(restKey:
             MapmyIndiaAccountManager.restAPIKey(), clientId:
             MapmyIndiaAccountManager.atlasClientId(), clientSecret:
             MapmyIndiaAccountManager.atlasClientSecret(), grantType:
             MapmyIndiaAccountManager.atlasGrantType())
 
-        let nearByOptions = MapmyIndiaNearbyAtlasOptions(query: "Airtel Store", location: CLLocation(latitude: 28.543014, longitude: 77.242342), withRegion: .india)
+        var whichStore : String = "null";
+
+        switch store
+        {
+            case 0: whichStore = "Jio";
+                    break;
+
+            case 1: whichStore = "Airtel";
+                    break;
+
+            case 2: whichStore = "Vodafone";
+                    break;
+
+            case 3: whichStore = "BSNL";
+                    break;
+
+            default:
+                    return;
+        }
+
+        let nearByOptions = MapmyIndiaNearbyAtlasOptions(query: whichStore, location: CLLocation(latitude: self.userLocation.latitude, longitude: self.userLocation.longitude), withRegion: .india)
         nearByManager.getNearBySuggestions(nearByOptions)
         {
             (suggestions,error) in
@@ -49,49 +83,47 @@ class NavigateVC: UIViewController
             }
             else if let suggestions = suggestions, !suggestions.isEmpty
             {
-                print("\n\n\n\n\n");
-                print(suggestions[0].placeAddress ?? "No Results");
-                print("Near by: \(suggestions[0].latitude ?? 0),\(suggestions[0].longitude ?? 0)")
-                print("\n\n\n\n\n");
+                self.nearbyStore.latitude = suggestions[0].latitude as! CLLocationDegrees;
+                self.nearbyStore.longitude = suggestions[0].longitude as! CLLocationDegrees;
+
+                // Setting Camera
+
+                let point1 = MGLPointAnnotation()
+                point1.coordinate = CLLocationCoordinate2D(latitude: self.nearbyStore.latitude, longitude: self.nearbyStore.longitude)
+
+                let cartext : [String] = ["Jio Store", "Airtel Store", "Vodafone Store", "BSNL Store"];
+                
+                point1.title = cartext[self.store];
+                self.mapView.addAnnotation(point1)
+
+                let point2 = MGLPointAnnotation()
+                point2.coordinate = self.userLocation;
+                point2.title = "Current Location"
+                self.mapView.addAnnotation(point2)
+
+                let shapeCam = self.mapView.cameraThatFitsCoordinateBounds(MGLCoordinateBounds(sw: CLLocationCoordinate2DMake(self.nearbyStore.latitude,self.nearbyStore.longitude), ne: self.userLocation), edgePadding: UIEdgeInsets(top: 40, left: 40, bottom: 40, right: 40))
+
+                self.mapView.setCamera(shapeCam, animated: true);
+
+                // Routing
+
+                self.callRouteUsingDirectionsFramework(isETA : true);
+
             }
             else
             {
-
+                
             }
         }
-
-        mapView = MapmyIndiaMapView(frame: myView.bounds)
-        mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        myView.addSubview(mapView)
-
-        // Setting Camera
-
-        let point1 = MGLPointAnnotation()
-        point1.coordinate = CLLocationCoordinate2D(latitude: 28.5415090000001, longitude:
-            77.2478590000001)
-        point1.title = "Current Location"
-        mapView.addAnnotation(point1)
-
-        let point2 = MGLPointAnnotation()
-        point2.coordinate = CLLocationCoordinate2D(latitude: 28.550834, longitude:
-            77.268918)
-        point2.title = "Airtel Store"
-        mapView.addAnnotation(point2)
-
-        let shapeCam = mapView.cameraThatFitsCoordinateBounds(MGLCoordinateBounds(sw: CLLocationCoordinate2DMake(28.5415090000001,77.2478590000001), ne: CLLocationCoordinate2DMake(28.550834, 77.268918)), edgePadding: UIEdgeInsets(top: 40, left: 40, bottom: 40, right: 40))
-
-        mapView.setCamera(shapeCam, animated: true);
-
-        // Routing
-
-        mapView.showsUserLocation = true;
-        callRouteUsingDirectionsFramework(isETA : true);
     }
 
     func callRouteUsingDirectionsFramework(isETA: Bool)
     {
-        let origin = MapmyIndiaDirections.Waypoint(coordinate: CLLocationCoordinate2D(latitude: 28.550834, longitude: 77.268918), name: "MapmyIndia")
-        let destination = MapmyIndiaDirections.Waypoint(coordinate: CLLocationCoordinate2D(latitude: 28.541509, longitude: 77.247859), name: "Airtel Store")
+        mapView.userTrackingMode = .followWithCourse
+        self.mapView.showsUserLocation = true;
+
+        let origin = MapmyIndiaDirections.Waypoint(coordinate: self.userLocation, name: "Current Location")
+        let destination = MapmyIndiaDirections.Waypoint(coordinate: CLLocationCoordinate2D(latitude: nearbyStore.latitude, longitude: nearbyStore.longitude), name: "Nearby Store")
         origin.allowsArrivingOnOppositeSide = false
         destination.allowsArrivingOnOppositeSide = false
 
@@ -110,7 +142,6 @@ class NavigateVC: UIViewController
             if let _ = error
             {
                 return
-
             }
 
             guard let allRoutes = routes, allRoutes.count > 0
@@ -132,7 +163,7 @@ class NavigateVC: UIViewController
         var polylines = [CustomPolyline]()
         if self.routes.count > 0
         {
-            for i in 0...self.routes.count - 1
+            for i in 0...0
             {
                 let route = self.routes[i]
                 if let routeCoordinates = route.coordinates
@@ -140,7 +171,8 @@ class NavigateVC: UIViewController
                     let myPolyline = CustomPolyline(coordinates: routeCoordinates, count: UInt(routeCoordinates.count))
                     myPolyline.routeIndex = i
                     polylines.append(myPolyline)
-                    if i == routeIndex {
+                    if i == routeIndex
+                    {
                         myPolyline.isSelected = true
                         self.selectedRoute = route
                     } else {
@@ -148,16 +180,38 @@ class NavigateVC: UIViewController
                     }
                     DispatchQueue.main.async
                     {
-                        self.DDlabel.text = String(format: "Driving Distance: %d m", (Int(route.distance)));
-                        self.ETALabel.text = String(format: "ETA: %d mins",Int(route.expectedTravelTime))
+                        let dist = Int(route.distance);
+                        let time = Int(route.expectedTravelTime)
+
+                        let kms = dist/1000;
+                        let met = dist%1000;
+
+                        let min = time/60;
+                        let sec = time%60;
+
+                        self.DDlabel.text = String(format: "Driving Distance: \(kms) km \(met) m");
+                        self.ETALabel.text = String(format: "ETA: \(min) mins \(sec) secs")
                     }
                 }
             }
 
             self.mapView.addAnnotation(polylines[routeIndex])
-            //self.mapView.showAnnotations(polylines, edgePadding: UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20), animated: false)
-            //self.selectRoute(route: self.routes[0])
         }
+    }
+
+    func mapView(_ mapView: MGLMapView, strokeColorForShapeAnnotation annotation: MGLShape) -> UIColor
+    {
+        return UIColor.red;
+    }
+
+    func mapView(_ mapView: MGLMapView, lineWidthForPolylineAnnotation annotation: MGLPolyline) -> CGFloat
+    {
+        return 2.5
+    }
+
+    func mapView(_ mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool
+    {
+        return true
     }
 }
 

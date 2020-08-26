@@ -10,8 +10,10 @@ import UIKit
 
 class ViewController: UIViewController
 {
-    @IBOutlet weak var checkMaps: UIButton!
 
+
+    @IBOutlet weak var checkMaps: UIButton!
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -23,3 +25,4 @@ class ViewController: UIViewController
         self.performSegue(withIdentifier: "ToMaps", sender: self);
     }
 }
+

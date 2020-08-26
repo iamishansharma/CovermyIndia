@@ -9,6 +9,7 @@
 import UIKit
 import MapmyIndiaAPIKit
 import MapmyIndiaMaps
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate
@@ -21,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate
         MapmyIndiaAccountManager.setAtlasClientSecret("9K_q_9Q2GHMk1AYFgJc7y4HSDeZjTFXL3-UM3u2QVHSdR6a8-Phv6pSQu91-yfWu9C8bEbeqewn0A7ekpxnQLhkNg0DbK1Av")
         MapmyIndiaAccountManager.setAtlasGrantType("client_credentials") //always put client_credentials
         //MapmyIndiaAccountManager.setAtlasAPIVersion("1.3.11") // Optional; deprecated
+        FirebaseApp.configure();
         return true
     }
 

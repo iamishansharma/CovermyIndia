@@ -14,10 +14,10 @@
 		86026C0E24DFFFB000086455 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 86026C0D24DFFFB000086455 /* Assets.xcassets */; };
 		86026C1124DFFFB000086455 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86026C0F24DFFFB000086455 /* LaunchScreen.storyboard */; };
 		86069F4024E30606005DEB7B /* Polyline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86069F3F24E30606005DEB7B /* Polyline.swift */; };
-		8621172624E28ADB0036B614 /* speedTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8621172524E28ADB0036B614 /* speedTest.swift */; };
 		8621172824E2B8380036B614 /* NavigationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8621172724E2B8380036B614 /* NavigationVC.swift */; };
+		864D1A7024F38FD900984BFA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 864D1A6F24F38FD900984BFA /* GoogleService-Info.plist */; };
 		865929DE24E00692005E49BE /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865929DD24E00692005E49BE /* MapVC.swift */; };
-		865929E524E00C08005E49BE /* GetUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865929E424E00C08005E49BE /* GetUserData.swift */; };
+		8689A50224EE309D00738527 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8689A50124EE309D00738527 /* Data.swift */; };
 		8CE81AE30CC2C5A14F837819 /* Pods_CovermyIndia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E34DB8C60F68DD00632E8B6 /* Pods_CovermyIndia.framework */; };
 /* End PBXBuildFile section */
 
@@ -32,10 +32,10 @@
 		86026C1024DFFFB000086455 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		86026C1224DFFFB000086455 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		86069F3F24E30606005DEB7B /* Polyline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Polyline.swift; sourceTree = "<group>"; };
-		8621172524E28ADB0036B614 /* speedTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = speedTest.swift; sourceTree = "<group>"; };
 		8621172724E2B8380036B614 /* NavigationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationVC.swift; sourceTree = "<group>"; };
+		864D1A6F24F38FD900984BFA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		865929DD24E00692005E49BE /* MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
-		865929E424E00C08005E49BE /* GetUserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserData.swift; sourceTree = "<group>"; };
+		8689A50124EE309D00738527 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		8E34DB8C60F68DD00632E8B6 /* Pods_CovermyIndia.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CovermyIndia.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F62B4BF07178D76FB0C1ABEE /* Pods-CovermyIndia.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CovermyIndia.debug.xcconfig"; path = "Target Support Files/Pods-CovermyIndia/Pods-CovermyIndia.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -90,6 +90,7 @@
 				86026C0D24DFFFB000086455 /* Assets.xcassets */,
 				86026C0F24DFFFB000086455 /* LaunchScreen.storyboard */,
 				86026C1224DFFFB000086455 /* Info.plist */,
+				864D1A6F24F38FD900984BFA /* GoogleService-Info.plist */,
 			);
 			path = CovermyIndia;
 			sourceTree = "<group>";
@@ -107,9 +108,8 @@
 		865929E324E00BDE005E49BE /* Brain */ = {
 			isa = PBXGroup;
 			children = (
-				865929E424E00C08005E49BE /* GetUserData.swift */,
-				8621172524E28ADB0036B614 /* speedTest.swift */,
 				86069F3F24E30606005DEB7B /* Polyline.swift */,
+				8689A50124EE309D00738527 /* Data.swift */,
 			);
 			path = Brain;
 			sourceTree = "<group>";
@@ -184,6 +184,7 @@
 			files = (
 				86026C1124DFFFB000086455 /* LaunchScreen.storyboard in Resources */,
 				86026C0E24DFFFB000086455 /* Assets.xcassets in Resources */,
+				864D1A7024F38FD900984BFA /* GoogleService-Info.plist in Resources */,
 				86026C0C24DFFFAE00086455 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -239,12 +240,11 @@
 			files = (
 				8621172824E2B8380036B614 /* NavigationVC.swift in Sources */,
 				86026C0924DFFFAE00086455 /* ViewController.swift in Sources */,
-				865929E524E00C08005E49BE /* GetUserData.swift in Sources */,
 				865929DE24E00692005E49BE /* MapVC.swift in Sources */,
-				8621172624E28ADB0036B614 /* speedTest.swift in Sources */,
 				86069F4024E30606005DEB7B /* Polyline.swift in Sources */,
 				86026C0524DFFFAE00086455 /* AppDelegate.swift in Sources */,
 				86026C0724DFFFAE00086455 /* SceneDelegate.swift in Sources */,
+				8689A50224EE309D00738527 /* Data.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -398,7 +398,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.iamishansharma.CovermyIndia;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -416,7 +416,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.iamishansharma.CovermyIndia;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
